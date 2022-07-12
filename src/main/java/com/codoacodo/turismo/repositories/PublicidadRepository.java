@@ -8,6 +8,4 @@ import java.util.ArrayList;
 
 @Repository
 public interface PublicidadRepository extends JpaRepository<PublicidadModel, Long > {
-
-    ArrayList<PublicidadModel> findByPrioridad(Integer prioridad);
 }

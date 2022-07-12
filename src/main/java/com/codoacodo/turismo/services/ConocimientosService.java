@@ -22,9 +22,6 @@ public class ConocimientosService {
     public Optional<ConocimientosModel> obtenerPorId(Long id){
         return conocimientosRepository.findById(id);
     }
-    public ArrayList<ConocimientosModel>  obtenerPorPrioridad(Integer prioridad) {
-        return conocimientosRepository.findByPrioridad(prioridad);
-    }
     public boolean eliminarConocimientos(Long id) {
         try{
             conocimientosRepository.deleteById(id);
@@ -32,6 +29,18 @@ public class ConocimientosService {
         }catch(Exception err){
             return false;
         }
+    }
+
+    public Optional<ConocimientosModel> editarConocimiento(Long id, ConocimientosModel conocimiento) {
+        Optional<ConocimientosModel> viejoConocimiento = this.obtenerPorId(id);
+        if(!viejoConocimiento.isEmpty()){
+            ConocimientosModel conocimientodb = viejoConocimiento.get();
+            conocimientodb.setIdOrador(conocimiento.getIdOrador());
+            conocimientodb.setNombre(conocimiento.getNombre());
+            conocimientodb.setStyle(conocimiento.getStyle());
+        }
+        return viejoConocimiento;
+
     }
 }
 

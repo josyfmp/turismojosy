@@ -1,6 +1,7 @@
 package com.codoacodo.turismo.controllers;
 
 import com.codoacodo.turismo.models.ConocimientosModel;
+import com.codoacodo.turismo.models.OradoresModel;
 import com.codoacodo.turismo.services.ConocimientosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,18 +10,20 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/conocimiento")         // mapea     /conocimientos
+@RequestMapping("api/v1/conocimientos")         // mapea     /conocimientos
 public class ConocimientosControllers {
     @Autowired
     ConocimientosService conocimientosService;
+
     @CrossOrigin   // para solucionar error “cors”
-    @GetMapping()      //trae todos los conocimientos y lo mapea  /conocimientos
+    @GetMapping("/")      //trae todos los conocimientos y lo mapea  /conocimientos
     public ArrayList<ConocimientosModel> obtenerConocimientos(){
 
         return conocimientosService.obtenerConocimientos();
     }
+
     @CrossOrigin
-    @PostMapping()    //   graba un conocimiento
+    @PostMapping("/")    //   graba un conocimiento
     public ConocimientosModel guardarConocimientos(@RequestBody ConocimientosModel conocimientos){
         return this.conocimientosService.guardarConocimientos(conocimientos);
     }
@@ -32,11 +35,6 @@ public class ConocimientosControllers {
     }
 
     @CrossOrigin
-    @GetMapping("/query")        // trae los conocimientos con determinada prioridad
-    public ArrayList<ConocimientosModel> obtenerUsuarioPorPrioridad(@RequestParam("prioridad") Integer prioridad){
-        return this.conocimientosService.obtenerPorPrioridad(prioridad);
-    }
-    @CrossOrigin
     @DeleteMapping( path = "/{id}")   // borra un conocimiento con determinado id
     public String eliminarPorId(@PathVariable("id") Long id){
         boolean ok = this.conocimientosService.eliminarConocimientos(id);
@@ -45,5 +43,11 @@ public class ConocimientosControllers {
         }else{
             return "No pudo eliminar el conocimiento con id" + id;
         }
+    }
+
+    @CrossOrigin
+    @PutMapping( path = "/{id}")    // trae una publicidad segun id
+    public Optional<ConocimientosModel> EditarConocimiento(@PathVariable("id") Long id, @RequestBody ConocimientosModel conocimiento) {
+        return this.conocimientosService.editarConocimiento(id, conocimiento);
     }
 }

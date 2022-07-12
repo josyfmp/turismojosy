@@ -21,9 +21,6 @@ public class PublicidadService {
         public Optional<PublicidadModel> obtenerPorId(Long id){
             return publicidadRepository.findById(id);
         }
-        public ArrayList<PublicidadModel> obtenerPorPrioridad(Integer prioridad) {
-            return publicidadRepository.findByPrioridad(prioridad);
-        }
         public boolean eliminarPublicidad(Long id) {
             try{
                 publicidadRepository.deleteById(id);
@@ -32,4 +29,16 @@ public class PublicidadService {
                 return false;
             }
         }
+
+    public Optional<PublicidadModel> editarPublicidad(Long id, PublicidadModel publicidad) {
+           Optional<PublicidadModel> viejaPublicidad = this.obtenerPorId(id);
+           if (!viejaPublicidad.isEmpty()){
+               viejaPublicidad.get().setDescripcion(publicidad.getDescripcion());
+               viejaPublicidad.get().setImagen(publicidad.getImagen());
+               viejaPublicidad.get().setTitulo(publicidad.getTitulo());
+               publicidadRepository.save(viejaPublicidad.get());
+           }
+           return viejaPublicidad;
+
     }
+}

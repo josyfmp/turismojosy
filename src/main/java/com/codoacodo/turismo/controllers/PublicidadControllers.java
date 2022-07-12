@@ -9,18 +9,20 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/publicidad")         // mapea     /publicidad
+@RequestMapping("api/v1/publicidad")         // mapea     /publicidad
 
 public class PublicidadControllers {
     @Autowired
     PublicidadService publicidadService;
+
     @CrossOrigin   // para solucionar error “cors”
-    @GetMapping()      //trae todas las publicidads y lo mapea  /publicidad
+    @GetMapping("/")      //trae todas las publicidads y lo mapea  /publicidad
     public ArrayList<PublicidadModel> obtenerPublicidad(){
         return publicidadService.obtenerPublicidad();
     }
+
     @CrossOrigin
-    @PostMapping()    //   graba una publicidad
+    @PostMapping("/")    //   graba una publicidad
     public PublicidadModel guardarPublicidad(@RequestBody PublicidadModel publicidad){
         return this.publicidadService.guardarPublicidad(publicidad);
     }
@@ -33,10 +35,11 @@ public class PublicidadControllers {
     }
 
     @CrossOrigin
-    @GetMapping("/query")        // trae la publicidad con determinada prioridad
-    public ArrayList<PublicidadModel> obtenerUsuarioPorPrioridad(@RequestParam("prioridad") Integer prioridad){
-        return this.publicidadService.obtenerPorPrioridad(prioridad);
+    @PutMapping( path = "/{id}")    // trae una publicidad segun id
+    public Optional<PublicidadModel> EditarPublicidad(@PathVariable("id") Long id, @RequestBody PublicidadModel publicidad) {
+        return this.publicidadService.editarPublicidad(id, publicidad);
     }
+
     @CrossOrigin
     @DeleteMapping( path = "/{id}")   // borra una publicidad con determinado id
     public String eliminarPorId(@PathVariable("id") Long id){

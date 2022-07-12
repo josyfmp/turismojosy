@@ -9,5 +9,4 @@ import java.util.ArrayList;
 
 @Repository
 public interface OradoresRepository extends JpaRepository<OradoresModel, Long > {
-    ArrayList<OradoresModel> findByPrioridad(Integer prioridad);
 }
