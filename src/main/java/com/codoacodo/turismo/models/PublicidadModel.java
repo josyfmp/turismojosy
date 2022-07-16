@@ -11,6 +11,7 @@ public class PublicidadModel {
     @Column(unique = true, nullable = false)
     private Long id;
     private String titulo;
+    @Column(length = 9000)
     private  String descripcion;
     private String imagen;
 
